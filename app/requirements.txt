@@ -1,0 +1,8 @@
+python-dotenv
+Flask
+gunicorn
+#taken from web app starter flask ^
+spotipy
+pprint
+pandas
+numpy
