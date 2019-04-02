@@ -43,37 +43,71 @@ if token:
 	playlists = sp.user_playlists(username)
 	#pprint.pprint(playlists)
 
+	n=1
+	
+
+	id_array = []
 
 	
-	print(type(playlists))
-	
+	print("Which playlist would you like to pick?")
 	for item_get in playlists['items']:
 
 		#namestr = item_get['items']['name']
 		#tracksstr = item_get['items']['tracks']
 		namestr = item_get['name']
-		trackstr = item_get['id']
-		print(namestr + ' ' + trackstr)
+		playlist_item = item_get['id']
+		print(str(n) + ' ' + namestr + ' ' + playlist_item)
+		id_array.append(playlist_item)
+		n = n+ 1
 
+
+	
+
+	track_list = []
+
+	user_input_validation = True
+
+
+	while user_input_validation:
+
+		print("Which playlist?")
+		playlist_selection = input()
+		playlist_selection = int(playlist_selection)
+
+		if(playlist_selection > len(id_array) or playlist_selection < 0):
+			print("Please input a valid number")
+		else:
+
+			selected_playlist = id_array[playlist_selection - 1]
+			playlist_tracks = sp.user_playlist_tracks(username,selected_playlist)
+
+			for track in playlist_tracks['items']:
+				track_list.append(track['track']['id'])
+
+
+
+			print("Would you like to add another playlist to seed? Press Y")
+			user_input = input()
+			if(user_input != 'Y'):
+				user_input_validation = False 
+
+
+
+
+
+	
+
+	#0u7NLX1XNKcqF2pdXxBD60
+	
+
+	#[items][track][id]
+
+	
 
 	
 
 
 
-	#0u7NLX1XNKcqF2pdXxBD60
-	playlist_tracks = sp.user_playlist_tracks(username,'0u7NLX1XNKcqF2pdXxBD60')
-	pprint.pprint(playlist_tracks)
-
-
-	#[items][track][id]
-
-	track_list = []
-
-	for track in playlist_tracks['items']:
-		track_list.append(track['track']['id'])
-
-
-	print(track_list)
 
 
 	results_search_song = track_list
@@ -109,7 +143,12 @@ if token:
 
 	results_search_song = random.sample(results_search_song, len(results_search_song))
 	#sublist = numpy.arrange(results_search_song)
-	sublist = numpy.array_split(results_search_song, upper_limit, axis = 0)
+
+	n = 3
+	#sublist = results_search_song.push(results_search_song.splice(0, 3));
+	#https://www.geeksforgeeks.org/break-list-chunks-size-n-python/
+	sublist = [results_search_song[i * n:(i + 1) * n] for i in range((len(results_search_song) + n - 1) // n )] 
+	#sublist = numpy.array_split(results_search_song, upper_limit, axis = 0)
 	#pprint.pprint(sublist)
 
 
@@ -124,7 +163,7 @@ if token:
 	
 
 	#['tracks'][1]['id']
-	while x < upper_limit:
+	while x < len(sublist):
 
 		recomends = sp.recommendations(seed_tracks=list(sublist[x]), limit=3)
 		#pprint.pprint(recomends)
@@ -161,7 +200,7 @@ if token:
 	print(timestring)
 
 
-	playlist_name = ("GMR HIST MCHN: " + timestring)
+	playlist_name = ("GMR HIST MCHN: PLAYLIST SEED" + timestring)
 	playlist_description = ("GMR's HISTORY MACHINE working project playlist")
 	print(playlist_name)
 	#creates playlist
