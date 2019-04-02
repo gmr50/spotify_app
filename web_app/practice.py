@@ -8,6 +8,7 @@ import spotipy.util as util
 import pprint as pprint
 import pandas
 import numpy
+import dotenv
 
 import random
 from datetime import datetime
@@ -18,8 +19,8 @@ username = sys.argv[1]
 
 
 scope = 'user-top-read playlist-modify-private'
-client_id_saved = "ec76592c5f224effa7107e833904173f"
-client_secret_saved = "b45382aebfb547e889b07368fabf93aa"
+client_id_saved = os.environ.get("CLIENT_ID", "Oops, please set env var called 'CLIENT_ID'")
+client_secret_saved = os.environ.get("CLIENT_SECRET", "Oops, please set env var called  'CLIENT_SECRET")
 redirect_uri_saved = "https://www.google.com/"
 cache_path = os.path.normpath(os.getcwd()) + "/caches/.cache-" + username
 
