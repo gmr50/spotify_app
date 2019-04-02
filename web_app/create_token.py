@@ -1,17 +1,10 @@
 import os
 import sys
-import json
 import spotipy
-import webbrowser
-import pprint
 import spotipy.util as util
-import pprint as pprint
-import pandas
-import numpy
 import dotenv
 
-import random
-from datetime import datetime
+
 
 #https://www.youtube.com/watch?v=jz6mBRJXVoY
 username = sys.argv[1]
@@ -37,4 +30,3 @@ token = util.prompt_for_user_token(
 
 if token:
 	sp = spotipy.Spotify(auth=token)
-
