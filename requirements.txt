@@ -2,6 +2,7 @@ python-dotenv
 Flask
 gunicorn
 spotipy
-pprint
 pandas
 numpy
+gspread
+oauth2client
