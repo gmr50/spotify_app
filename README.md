@@ -25,3 +25,21 @@ then still needs on the server# spotify_app
 
 heroku git:remote -a spotify-playlist-app-gmr 
 //again, doesn’t work as expected, doesn’t recognize language
+
+
+
+
+gitignore
+	something like credentials
+	ignore contents of the directory called "credentials"
+
+
+	localhost5000
+
+
+
+As of now, you will need to make a cache file! **instructions to come***
+
+
+
+pip install oauth2client==4.1.3

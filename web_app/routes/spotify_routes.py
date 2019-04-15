@@ -4,37 +4,6 @@ from flask import Blueprint, request, render_template, jsonify, flash, redirect 
 spotify_routes = Blueprint("spotify_routes", __name__)
 
 
-@spotify_routes.route("/")
-def index():
-    print("VISITING THE INDEX PAGE")
-    #return "You have visited the homepage"
-    return render_template("index.html")
-
-
-
-# GET /hello
-# GET /hello?name=Polly
-@spotify_routes.route("/hello")
-def hello(name=None):
-    print("VISITING THE HELLO PAGE")
-    print("REQUEST PARAMS:", dict(request.args))
-
-    if "name" in request.args:
-        name = request.args["name"]
-        message = f"Hello, {name}"
-    else:
-        message = "Hello World"
-
-    #return message
-    return render_template("hello.html", message=message)
-
-@spotify_routes.route("/login")
-def Login(name=None):
-    print("requesting login page!***")
-
-    return render_template("login.html")
-
-
 
 
 @spotify_routes.route("/login/create")
