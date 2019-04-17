@@ -1,8 +1,11 @@
 from __future__ import print_function
 import os
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 import spotipy
-import flask
+import spotipy.util as util
+from flask import Flask, render_template, request, redirect, Blueprint
+
+
 
 def prompt_for_user_token_override(username, scope=None, client_id = None,
         client_secret = None, redirect_uri = None, cache_path = None):
@@ -96,6 +99,32 @@ def prompt_for_user_token_override(username, scope=None, client_id = None,
     #     print("success!")
 
     #session['spotify_auth'] = sp_oauth
+
+    return sp_oauth
+
+
+
+
+def prompt_token_flask():
+
+    username = "gmr0678"
+
+    scope = 'user-top-read playlist-modify-private'
+    client_id_saved = os.environ.get("CLIENT_ID", "Oops, please set env var called 'CLIENT_ID'")
+    client_secret_saved = os.environ.get("CLIENT_SECRET", "Oops, please set env var called  'CLIENT_SECRET")
+    redirect_uri_saved = "http://localhost:5000/callback/"
+    path = os.path.normpath(os.getcwd()) + "web_app/caches/.cache-" + username
+
+
+    return SpotifyOAuth(
+        client_id=client_id_saved,
+        client_secret=client_secret_saved,
+        redirect_uri=redirect_uri_saved,
+        scope='user-top-read playlist-modify-private',
+        cache_path=path
+    )
+
+
 
 
 

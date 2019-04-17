@@ -1,15 +1,19 @@
 
-from flask import Blueprint, request, render_template
-from web_app.spotify_methods import prompt_for_user_token_override
+from flask import Blueprint, request, render_template, redirect
+#from web_app.spotify_methods import prompt_for_user_token_override
+from web_app.spotify_methods import prompt_token_flask
 
 
-import os
-import sys
-import spotipy
-import spotipy.util as util
-import dotenv
-import webbrowser
+
+
+# import os
+# import sys
+# import spotipy
+# import spotipy.util as util
+# import dotenv
+# import webbrowser
 from spotipy.oauth2 import SpotifyOAuth
+
 
 home_routes = Blueprint("home_routes", __name__)
 
@@ -46,46 +50,57 @@ def Login(name=None):
 @home_routes.route("/login/create/")
 def Execute(code=None):
     print("im Executing login script!!!")
-    print("ps")
+    # print("ps")
 
 
 
-    username = "gmr0678"
-    print(os.path.normpath(os.getcwd()))
+    # username = "gmr0678"
+    # print(os.path.normpath(os.getcwd()))
 
-    scope = 'user-top-read playlist-modify-private'
-    client_id_saved = os.environ.get("CLIENT_ID", "Oops, please set env var called 'CLIENT_ID'")
-    client_secret_saved = os.environ.get("CLIENT_SECRET", "Oops, please set env var called  'CLIENT_SECRET")
-    redirect_uri_saved = "http://localhost:5000/callback/"
-    cache_path = os.path.normpath(os.getcwd()) + "web_app/caches/.cache-" + username
+    # scope = 'user-top-read playlist-modify-private'
+    # client_id_saved = os.environ.get("CLIENT_ID", "Oops, please set env var called 'CLIENT_ID'")
+    # client_secret_saved = os.environ.get("CLIENT_SECRET", "Oops, please set env var called  'CLIENT_SECRET")
+    # redirect_uri_saved = "http://localhost:5000/callback/"
+    # cache_path = os.path.normpath(os.getcwd()) + "web_app/caches/.cache-" + username
 
 
-    #response = request.META.get('PATH_INFO')    
-    #print(response)
+    # #response = request.META.get('PATH_INFO')    
+    # #print(response)
 
-    token = prompt_for_user_token_override(
-    username=username,
-    scope=scope,
-    client_id=client_id_saved,
-    client_secret=client_secret_saved,
-    redirect_uri=redirect_uri_saved,
-    cache_path = cache_path)
+    # token = prompt_for_user_token_override(
+    # username=username,
+    # scope=scope,
+    # client_id=client_id_saved,
+    # client_secret=client_secret_saved,
+    # redirect_uri=redirect_uri_saved,
+    # cache_path = cache_path)
 
-    print("next step")
+    # print("next step")
 
 
     
 
    
 
-    if token:
-        sp = spotipy.Spotify(auth=token)
+    # if token:
+    #     sp = spotipy.Spotify(auth=token)
 
 
 
-    print("token " + str(token))
+    # print("token " + str(token))
 
-    return (print("success"))
+    # return (print("success"))
+
+
+
+
+
+    print("SPOTIFY LOGIN...")
+    auth_url = prompt_token_flask().get_authorize_url() #> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
+    return redirect(auth_url)
+
+
+
 
 
     app.run(debug=True)
@@ -100,27 +115,43 @@ def Callback(code=None):
 
     #sp_oauth = session.get('spotify_auth', None)
 
-    print("callback runnning")
-    dict(request.args)
+    # print("callback runnning")
+    # dict(request.args)
+
+    # if "code" in request.args:
+    #     auth_code = request.args["code"]
+    #     print(auth_code)
+    # else:
+    #     message = "Hello World"
+
+    # print("callback authcode: " + auth_code)
+    # token_info = sp_oauth.get_access_token(auth_code)
+    # # Auth'ed API request
+    # if token_info:
+    #     return token_info['access_token']
+    # else:
+    #     return None
+
+    #     print("success!**")
+
+
+    print("SPOTIFY CALLBACK")
+    print("REQUEST PARAMS:", dict(request.args))
 
     if "code" in request.args:
-        auth_code = request.args["code"]
-        print(auth_code)
+        code = request.args["code"]
+        print("CODE:", code)
+
+        sp_oauth = prompt_token_flask()
+        token_info = sp_oauth.get_access_token(code)
+        print("TOKEN INFO:", token_info)
+        token = token_info["access_token"]
+        print("ACCESS TOKEN:", token)
+        return token
     else:
-        message = "Hello World"
-
-    print("callback authcode: " + auth_code)
-    token_info = sp_oauth.get_access_token(auth_code)
-    # Auth'ed API request
-    if token_info:
-        return token_info['access_token']
-    else:
-        return None
-
-        print("success!**")
-
-
-
+        message = "OOPS, UNABLE TO GET CODE"
+        print(message)
+        return message
 
 
 
