@@ -104,10 +104,13 @@ def prompt_for_user_token_override(username, scope=None, client_id = None,
 
 
 
-def prompt_token_flask():
+def prompt_token_flask(user_id):
 
- 
+
+
+
     username = "gmr0678"
+    username = user_id
     
 
     scope = 'user-top-read playlist-modify-private'
@@ -127,9 +130,9 @@ def prompt_token_flask():
 
 
 
-def get_user_playlists(token):
+def get_user_playlists(token, user_id):
 
-    username = "gmr0678"
+    username = user_id
 
     passed_token = token 
 
@@ -157,6 +160,9 @@ def get_user_playlists(token):
         print(str(n) + ' ' + namestr + ' ' + playlist_item)
         id_array.append(playlist_item)
         n = n+ 1
+
+
+    return id_array
 
 
 

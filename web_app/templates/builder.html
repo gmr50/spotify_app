@@ -14,6 +14,13 @@
     <input type="text" name="user_name" placeholder="Product XYZ" value="Product XYZ"> -->
 
 
+<p>
+	<h2> Here are your playlists: </h2>
+	<h4> 
+		{% for item in playlists %}
+		<li> {{item}} </li>
+		{% endfor %}
+	</h4>
 
 
 

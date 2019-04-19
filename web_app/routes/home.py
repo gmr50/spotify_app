@@ -52,7 +52,9 @@ def Execute(code=None):
     print("im Executing login script!!!")
 
     username_hard = "gmr0678"
-    auth_url = prompt_token_flask().get_authorize_url() #> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
+
+    user_id = "gmr0678"
+    auth_url = prompt_token_flask(user_id).get_authorize_url() #> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
     return redirect(auth_url)
 
     app.run(debug=True)
@@ -62,6 +64,7 @@ def Execute(code=None):
 @home_routes.route("/callback/")
 def Callback(code=None):
 
+    user_id = "gmr0678"
 
     #gets authorization code from url
     print("SPOTIFY CALLBACK")
@@ -71,7 +74,7 @@ def Callback(code=None):
         code = request.args["code"]
         print("CODE:", code)
 
-        sp_oauth = prompt_token_flask()
+        sp_oauth = prompt_token_flask(user_id)
         token_info = sp_oauth.get_access_token(code)
         print("TOKEN INFO:", token_info)
         token = token_info["access_token"]
@@ -88,6 +91,8 @@ def Callback(code=None):
 @home_routes.route("/builder/")
 def SeedBuilder():
 
+    user_id = "gmr0678"
+
     try:
         builder_token = session.get('token_var', None)
     except:
@@ -95,8 +100,11 @@ def SeedBuilder():
 
     if(builder_token):
 
-        get_user_playlists(builder_token)
-        return render_template("builder.html")
+        user_playlists = get_user_playlists(builder_token, user_id)
+        print("render *********")
+        print(user_playlists)
+
+        return render_template("builder.html", playlists = user_playlists)
 
 
 
