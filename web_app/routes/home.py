@@ -1,7 +1,7 @@
 
-from flask import Blueprint, request, render_template, redirect
+from flask import Blueprint, request, render_template, redirect, session
 #from web_app.spotify_methods import prompt_for_user_token_override
-from web_app.spotify_methods import prompt_token_flask
+from web_app.spotify_methods import prompt_token_flask, get_user_playlists
 
 
 
@@ -50,91 +50,20 @@ def Login(name=None):
 @home_routes.route("/login/create/")
 def Execute(code=None):
     print("im Executing login script!!!")
-    # print("ps")
 
-
-
-    # username = "gmr0678"
-    # print(os.path.normpath(os.getcwd()))
-
-    # scope = 'user-top-read playlist-modify-private'
-    # client_id_saved = os.environ.get("CLIENT_ID", "Oops, please set env var called 'CLIENT_ID'")
-    # client_secret_saved = os.environ.get("CLIENT_SECRET", "Oops, please set env var called  'CLIENT_SECRET")
-    # redirect_uri_saved = "http://localhost:5000/callback/"
-    # cache_path = os.path.normpath(os.getcwd()) + "web_app/caches/.cache-" + username
-
-
-    # #response = request.META.get('PATH_INFO')    
-    # #print(response)
-
-    # token = prompt_for_user_token_override(
-    # username=username,
-    # scope=scope,
-    # client_id=client_id_saved,
-    # client_secret=client_secret_saved,
-    # redirect_uri=redirect_uri_saved,
-    # cache_path = cache_path)
-
-    # print("next step")
-
-
-    
-
-   
-
-    # if token:
-    #     sp = spotipy.Spotify(auth=token)
-
-
-
-    # print("token " + str(token))
-
-    # return (print("success"))
-
-
-
-
-
-    print("SPOTIFY LOGIN...")
+    username_hard = "gmr0678"
     auth_url = prompt_token_flask().get_authorize_url() #> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
     return redirect(auth_url)
-
-
-
-
 
     app.run(debug=True)
 
 
+# callback flow adapted from: https://github.com/s2t2/playlist-service-py/pull/4/files#diff-7c81558911feacb797d9b980aec726d6
 @home_routes.route("/callback/")
 def Callback(code=None):
 
-    #need to pass sp_oauth to this method
 
-    #sp_oauth = os.environ['sp_oauth']
-
-    #sp_oauth = session.get('spotify_auth', None)
-
-    # print("callback runnning")
-    # dict(request.args)
-
-    # if "code" in request.args:
-    #     auth_code = request.args["code"]
-    #     print(auth_code)
-    # else:
-    #     message = "Hello World"
-
-    # print("callback authcode: " + auth_code)
-    # token_info = sp_oauth.get_access_token(auth_code)
-    # # Auth'ed API request
-    # if token_info:
-    #     return token_info['access_token']
-    # else:
-    #     return None
-
-    #     print("success!**")
-
-
+    #gets authorization code from url
     print("SPOTIFY CALLBACK")
     print("REQUEST PARAMS:", dict(request.args))
 
@@ -147,11 +76,31 @@ def Callback(code=None):
         print("TOKEN INFO:", token_info)
         token = token_info["access_token"]
         print("ACCESS TOKEN:", token)
-        return token
+
+        session['token_var'] = token
+
+        return redirect("/builder")
     else:
         message = "OOPS, UNABLE TO GET CODE"
         print(message)
         return message
 
+@home_routes.route("/builder/")
+def SeedBuilder():
 
+    try:
+        builder_token = session.get('token_var', None)
+    except:
+        print("failed to get session variable")
+
+    if(builder_token):
+
+        get_user_playlists(builder_token)
+        return render_template("builder.html")
+
+
+
+
+    else:
+        print("no token")
 

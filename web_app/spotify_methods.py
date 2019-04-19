@@ -1,8 +1,7 @@
-from __future__ import print_function
 import os
 from spotipy.oauth2 import SpotifyOAuth, SpotifyClientCredentials
 import spotipy
-import spotipy.util as util
+import spotipy.util as util 
 from flask import Flask, render_template, request, redirect, Blueprint
 
 
@@ -107,13 +106,15 @@ def prompt_for_user_token_override(username, scope=None, client_id = None,
 
 def prompt_token_flask():
 
+ 
     username = "gmr0678"
+    
 
     scope = 'user-top-read playlist-modify-private'
     client_id_saved = os.environ.get("CLIENT_ID", "Oops, please set env var called 'CLIENT_ID'")
     client_secret_saved = os.environ.get("CLIENT_SECRET", "Oops, please set env var called  'CLIENT_SECRET")
     redirect_uri_saved = "http://localhost:5000/callback/"
-    path = os.path.normpath(os.getcwd()) + "web_app/caches/.cache-" + username
+    path = (os.path.normpath(os.getcwd()) + "web_app/caches/.cache-" + username)
 
 
     return SpotifyOAuth(
@@ -124,6 +125,38 @@ def prompt_token_flask():
         cache_path=path
     )
 
+
+
+def get_user_playlists(token):
+
+    username = "gmr0678"
+
+    passed_token = token 
+
+    sp = spotipy.Spotify(auth=passed_token)
+
+    #print(inspect.getsource(sp.current_user_top_tracks()))
+
+    sp.trace = False
+
+    playlists = sp.user_playlists(username)
+
+    n=1
+    
+
+    id_array = []
+
+    
+    print("Which playlist would you like to pick?")
+    for item_get in playlists['items']:
+
+        #namestr = item_get['items']['name']
+        #tracksstr = item_get['items']['tracks']
+        namestr = item_get['name']
+        playlist_item = item_get['id']
+        print(str(n) + ' ' + namestr + ' ' + playlist_item)
+        id_array.append(playlist_item)
+        n = n+ 1
 
 
 
