@@ -158,9 +158,11 @@ def get_user_playlists(token, user_id):
         namestr = item_get['name']
         playlist_item = item_get['id']
         print(str(n) + ' ' + namestr + ' ' + playlist_item)
-        id_array.append(playlist_item)
+        id_array.append(namestr)
         n = n+ 1
 
+
+    print(id_array)
 
     return id_array
 
