@@ -20,18 +20,33 @@
 
 	<!-- https://stackoverflow.com/questions/45877080/how-to-create-dropdown-menu-from-python-list-using-flask-and-html
 	<select name="playlist" method="GET" action="/">> -->
-	<select>
- 		<option value="{{playlists[0]}}" selected>{{playlists[0]}}</option>
-  		{% for item in playlists[1:] %}
-    		<option value="{{item}}">{{item}}</option>
+	<form method = "POST" action="/builder/addseed/">
+		<select name ="playlist_seed">
+	 		<option value="{{playlists[0][1]}}" selected>{{playlists[0][0]}}</option>
+	  		{% for item in playlists[1:] %}
+	    		<option value="{{item[0][0:]}}">{{item[0:][0]}}</option>
+	  		{% endfor %}
+		</select>
+	<!--</form>-->
+
+
+	<!-- <form action="/builder/addseed/"> -->
+    	<input type="submit" value="Add Seed" />
+	</form>
+
+
+	<h2> Pick a top tracks term: </h2>
+	<select name ="term_seed">
+ 		<option value="{{ranges[0][1]}}" selected>{{ranges[0][0]}}</option>
+  		{% for item in ranges[1:] %}
+    		<option value="{{item[0][0:]}}">{{item[0:][0]}}</option>
   		{% endfor %}
 	</select>
 
 
 	<form action="/builder/addseed/">
-    	<input type="submit" value="Add seeds!" />
+    	<input type="submit" value="Add Seed" />
 	</form>
-
 
 
 
