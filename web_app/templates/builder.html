@@ -24,7 +24,7 @@
 		<select name ="playlist_seed">
 	 		<option value="{{playlists[0][1]}}" selected>{{playlists[0][0]}}</option>
 	  		{% for item in playlists[1:] %}
-	    		<option value="{{item[0][0:]}}">{{item[0:][0]}}</option>
+	    		<option value="{{item[1]}}">{{item[0:][0]}}</option>
 	  		{% endfor %}
 		</select>
 	<!--</form>-->
@@ -36,17 +36,29 @@
 
 
 	<h2> Pick a top tracks term: </h2>
-	<select name ="term_seed">
- 		<option value="{{ranges[0][1]}}" selected>{{ranges[0][0]}}</option>
-  		{% for item in ranges[1:] %}
-    		<option value="{{item[0][0:]}}">{{item[0:][0]}}</option>
-  		{% endfor %}
-	</select>
+	<form method = "POST" action="/builder/addtoptracksseed">
+		<select name ="term_seed">
+	 		<option value="{{ranges[0][1]}}" selected>{{ranges[0][0]}}</option>
+	  		{% for item in ranges[1:] %}
+	    		<option value="{{item[1]}}">{{item[0:][0]}}</option>
+	  		{% endfor %}
+		</select>
 
-
-	<form action="/builder/addseed/">
     	<input type="submit" value="Add Seed" />
 	</form>
+
+	<form method = "GET" action="/builder/create_playlist/">
+		<input type ="submit" value="Seeds Planted" >
+	</form>
+
+</p>
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		{% for message in messages %}
+			<h3> {{message}} </h3>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
 
 
 
