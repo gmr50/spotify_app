@@ -1,0 +1,83 @@
+
+
+{% block title %}
+  <title>Seed Builder</title>
+{% endblock %}
+
+{% block content %}
+  <h2>Please select the playlists you would like to seed for this playlist</h2>
+  <h3>Be creative, options available aren't just playlists you've created.</h3>
+
+
+ <!-- <form action="/login/create" method="POST">
+    <label>Username:</label>
+    <input type="text" name="user_name" placeholder="Product XYZ" value="Product XYZ"> -->
+
+
+<p>
+	<h2> Pick a playlist to seed: </h2>
+
+
+	<!-- https://stackoverflow.com/questions/45877080/how-to-create-dropdown-menu-from-python-list-using-flask-and-html
+	<select name="playlist" method="GET" action="/">> -->
+	<form method = "POST" action="/builder/addseed/">
+		<select name ="playlist_seed">
+	 		<option value="{{playlists[0][1]}}" selected>{{playlists[0][0]}}</option>
+	  		{% for item in playlists[1:] %}
+	    		<option value="{{item[1]}}">{{item[0:][0]}}</option>
+	  		{% endfor %}
+		</select>
+	<!--</form>-->
+
+
+	<!-- <form action="/builder/addseed/"> -->
+    	<input type="submit" value="Add Seed" />
+	</form>
+
+
+	<h2> Pick a top tracks term: </h2>
+	<form method = "POST" action="/builder/addtoptracksseed">
+		<select name ="term_seed">
+	 		<option value="{{ranges[0][1]}}" selected>{{ranges[0][0]}}</option>
+	  		{% for item in ranges[1:] %}
+	    		<option value="{{item[1]}}">{{item[0:][0]}}</option>
+	  		{% endfor %}
+		</select>
+
+    	<input type="submit" value="Add Seed" />
+	</form>
+
+
+
+	<h2> Practice: </h2>
+	<form method = "POST" action="/builder/addtoptracksseed">
+		<select name ="term_seed">
+	 		<option value="{{ranges[0][1]}}" selected>{{ranges[0][0]}}</option>
+	  		{% for item in ranges[1:] %}
+	    		<option value="{{item}}">{{item[0:][0]}}</option>
+	  		{% endfor %}
+		</select>
+
+    	<input type="submit" value="Add Seed" />
+	</form>
+
+
+
+	<form method = "GET" action="/builder/create_playlist/">
+		<input type ="submit" value="Seeds Planted" >
+	</form>
+
+</p>
+
+<!-- https://www.youtube.com/watch?v=DFCKWhoiHZ4 -->
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		{% for message in messages %}
+			<h3> {{message}} </h3>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
+
+
+
+{% endblock %}

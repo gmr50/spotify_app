@@ -79,7 +79,7 @@ if token:
 		else:
 
 			selected_playlist = id_array[playlist_selection - 1]
-			playlist_tracks = sp.user_playlist_tracks(username,selected_playlist)
+			playlist_tracks = sp.user_playlist_tracks(username, selected_playlist)
 
 			for track in playlist_tracks['items']:
 				track_list.append(track['track']['id'])
@@ -210,9 +210,6 @@ if token:
 
 	playlist_id = playlists['id']
 
-
-	results_search_song = (results_search_song[0:35])
-	results_search_song = random.sample(results_search_song, len(results_search_song))
 
 
 	tracks = rec_list
