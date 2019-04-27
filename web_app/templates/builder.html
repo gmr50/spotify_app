@@ -47,6 +47,22 @@
     	<input type="submit" value="Add Seed" />
 	</form>
 
+
+
+	<h2> Practice: </h2>
+	<form method = "POST" action="/builder/addtoptracksseed">
+		<select name ="term_seed">
+	 		<option value="{{ranges[0][1]}}" selected>{{ranges[0][0]}}</option>
+	  		{% for item in ranges[1:] %}
+	    		<option value="{{item}}">{{item[0:][0]}}</option>
+	  		{% endfor %}
+		</select>
+
+    	<input type="submit" value="Add Seed" />
+	</form>
+
+
+
 	<form method = "GET" action="/builder/create_playlist/">
 		<input type ="submit" value="Seeds Planted" >
 	</form>
