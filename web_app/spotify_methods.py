@@ -211,6 +211,15 @@ def playlist_unfollow(user, token):
 
 
 
+def strip_selection(selection):
+
+    selection = selection.replace("'","")
+    selection = selection.strip('[')
+    selection = selection.strip(']')
+    selection = selection.split(', ')
+
+    return selection
+
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 
 from flask import Blueprint, request, render_template, redirect, session, url_for, flash
 #from web_app.spotify_methods import prompt_for_user_token_override
-from web_app.spotify_methods import prompt_token_flask, get_user_playlists, add_playlist_for_seed, add_tracks_for_seed, add_top_tracks_for_seed, build_playlist, execute_playlist, playlist_unfollow
+from web_app.spotify_methods import prompt_token_flask, get_user_playlists, add_playlist_for_seed, add_tracks_for_seed, add_top_tracks_for_seed, build_playlist, execute_playlist, playlist_unfollow, strip_selection
 
 
 import spotipy
@@ -26,8 +26,10 @@ def index():
     #declaring session variable to send playlist seeds to
     playlists_list = []
     tracks_list = []
+    seeds_added_list = []
     session['playlists_list'] = playlists_list
     session['tracks_list'] = tracks_list
+    session['seeds_added_list'] = seeds_added_list
 
 
     return render_template("index.html")
@@ -162,6 +164,23 @@ def AddSeed():
     selected_playlist_tracks = []
     selection = request.form.get('playlist_seed')
 
+
+    #parses selection
+
+    selection = strip_selection(selection)
+
+    name_of_seed = selection[0]
+    flash('Planted ' + name_of_seed + ' in your algorithm!')
+    
+
+    #adds name for later playlist description
+    seeds_added_list = session.get('seeds_added_list', None)
+    seeds_added_list.append(name_of_seed)
+    session['seeds_added_list'] = seeds_added_list
+   
+    selection = selection[1]
+    
+
     user_id = session.get('username', None)
 
     tracks_list = session.get('tracks_list', None)
@@ -197,11 +216,27 @@ def add_top_tracks():
         print("failed to get session variable")
 
     selection = request.form.get('term_seed')
-    print(selection)
+
+    selection = strip_selection(selection)
+
+    name_of_seed = selection[0]
+    flash('Planted ' + name_of_seed + ' in your algorithm!')
+    #adds name for later playlist description
+    seeds_added_list = session.get('seeds_added_list', None)
+    seeds_added_list.append(name_of_seed)
+    session['seeds_added_list'] = seeds_added_list
+   
+   
+    selection = selection[1]
+
+
+
 
     tracks_list = tracks_list + add_top_tracks_for_seed(selection, token)
     session['tracks_list'] = tracks_list
     print(tracks_list)
+
+
 
 
 

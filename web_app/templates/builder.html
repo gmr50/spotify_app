@@ -22,9 +22,9 @@
 	<select name="playlist" method="GET" action="/">> -->
 	<form method = "POST" action="/builder/addseed/">
 		<select name ="playlist_seed">
-	 		<option value="{{playlists[0][1]}}" selected>{{playlists[0][0]}}</option>
+	 		<option value="{{playlists[0]}}" selected>{{playlists[0][0]}}</option>
 	  		{% for item in playlists[1:] %}
-	    		<option value="{{item[1]}}">{{item[0:][0]}}</option>
+	    		<option value="{{item}}">{{item[0:][0]}}</option>
 	  		{% endfor %}
 		</select>
 	<!--</form>-->
@@ -38,21 +38,7 @@
 	<h2> Pick a top tracks term: </h2>
 	<form method = "POST" action="/builder/addtoptracksseed">
 		<select name ="term_seed">
-	 		<option value="{{ranges[0][1]}}" selected>{{ranges[0][0]}}</option>
-	  		{% for item in ranges[1:] %}
-	    		<option value="{{item[1]}}">{{item[0:][0]}}</option>
-	  		{% endfor %}
-		</select>
-
-    	<input type="submit" value="Add Seed" />
-	</form>
-
-
-
-	<h2> Practice: </h2>
-	<form method = "POST" action="/builder/addtoptracksseed">
-		<select name ="term_seed">
-	 		<option value="{{ranges[0][1]}}" selected>{{ranges[0][0]}}</option>
+	 		<option value="{{ranges[0]}}" selected>{{ranges[0][0]}}</option>
 	  		{% for item in ranges[1:] %}
 	    		<option value="{{item}}">{{item[0:][0]}}</option>
 	  		{% endfor %}
@@ -61,7 +47,23 @@
     	<input type="submit" value="Add Seed" />
 	</form>
 
+	<form method = "GET" action="/builder/create_playlist/">
+		<input type ="submit" value="Seeds Planted" >
+	</form>
 
+
+
+	<h2> Practice: </h2>
+	<form method = "POST" action="/builder/addtoptracksseed">
+		<select name ="practice_seed">
+	 		<option value="{{ranges[0][1]}}" selected>{{ranges[0][0]}}</option>
+	  		{% for item in ranges[1:] %}
+	    		<option value="{{item}}">{{item[0:][0]}}</option>
+	  		{% endfor %}
+		</select>
+
+    	<input type="submit" value="Add Seed" />
+	</form>
 
 	<form method = "GET" action="/builder/create_playlist/">
 		<input type ="submit" value="Seeds Planted" >
