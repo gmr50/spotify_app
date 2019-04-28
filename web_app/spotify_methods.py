@@ -5,6 +5,7 @@ import spotipy.util as util
 from flask import Flask, render_template, request, redirect, Blueprint
 import random
 import datetime 
+import csv
 
 
 
@@ -84,7 +85,7 @@ def add_playlist_for_seed(input, playlists_list):
     
     playlists_list.append(input)
 
-    print(playlists_list)
+    
     return playlists_list
 
 
@@ -111,7 +112,6 @@ def add_top_tracks_for_seed(track_range, token):
 
     
     for i, item in enumerate(results['items']):
-        print(i, item['name'], '//', item['artists'][0]['name'])
         id_array.append(item['id'])
 
     return id_array
@@ -123,7 +123,13 @@ def build_playlist(tracks, token):
 
     tracks = random.sample(tracks, len(tracks))
 
-    n = 3
+    #for large seed lists, incorporates 4 tracks instead of 3 for each recommended song
+    if(len(tracks)>200):
+        n = 4
+    else:
+        n = 3
+
+    
     x = 0
     #https://www.geeksforgeeks.org/break-list-chunks-size-n-python/
     sublist = [tracks[i * n:(i + 1) * n] for i in range((len(tracks) + n - 1) // n )] 
@@ -131,22 +137,44 @@ def build_playlist(tracks, token):
 
     rec_list = []
 
-    while x < len(sublist):
 
-        recomends = sp.recommendations(seed_tracks=list(sublist[x]), limit=3)
-        #pprint.pprint(recomends)
-    
+    #75 is the maximum size of a playlist
+    limit = 0
+    if(len(sublist) < 75):
+        limit = len(sublist)
+    else:
+        limit = 75
 
+
+    while x < limit:
+
+        recomends = sp.recommendations(seed_tracks=list(sublist[x]), limit=2)
         rec_list.append(recomends['tracks'][0]['id'])
-        print(recomends['tracks'][0]['name'])
-        rec_list.append(recomends['tracks'][1]['id'])
-
-        
         x = x+1
+
+    loopagain = False
+
+    if limit < 75:
+        limit  = 75 - len(sublist)
+        loopagain = True
+        #gives a new limit allowing tracks to be added up until the 74 track limit
+
+    x = 0
+
+    if loopagain:
+        while x < limit:
+
+            recomends = sp.recommendations(seed_tracks=list(sublist[x]), limit=2)
+            #adds the second returned recommendation
+            rec_list.append(recomends['tracks'][1]['id'])
+            x = x+1
+
+
+
     return(rec_list)
 
 
-def execute_playlist(token, username, recommendations, playlist_name):
+def execute_playlist(token, username, recommendations, playlist_name, description):
 
 
 
@@ -156,11 +184,10 @@ def execute_playlist(token, username, recommendations, playlist_name):
     sp = spotipy.Spotify(auth=token)
 
     playlist_name = ("GMR HIST MCHN: " + playlist_name + " " + timestring)
-    playlist_description = ("GMR's HISTORY MACHINE working project playlist")
-    print(playlist_name)
+ 
     #creates playlist
     #https://github.com/plamere/spotipy/blob/master/examples/create_playlist.py
-    playlists = sp.user_playlist_create(username, playlist_name, public = True, description = playlist_description)
+    playlists = sp.user_playlist_create(username, playlist_name, public = True, description = description)
 
 
     playlist_id = playlists['id']
@@ -213,12 +240,76 @@ def playlist_unfollow(user, token):
 
 def strip_selection(selection):
 
+ 
     selection = selection.replace("'","")
     selection = selection.strip('[')
     selection = selection.strip(']')
     selection = selection.split(', ')
 
     return selection
+
+
+def read_tracks_from_csv():
+
+    csv_filepath = os.path.normpath(os.getcwd()) + "/web_app/csv_files/tracks.csv"
+
+    #https://therenegadecoder.com/code/how-to-check-if-a-file-exists-in-python/
+    exists = os.path.isfile(csv_filepath)
+
+    print(csv_filepath)
+
+
+    with open(csv_filepath, "r") as csv_file:
+        reader = csv.reader(csv_file)
+        csv_list = []
+        for row in reader:
+
+            #making sure extraneous characters are not added
+            row = str(row)
+            row = row[2:-2]
+            csv_list.append(row)
+
+
+        if(len(csv_list)==0):
+            print("empty")
+
+        else:
+            print("not empty")
+
+    return csv_list
+
+
+
+def write_tracks_to_csv(tracks_list):
+
+    csv_filepath = os.path.normpath(os.getcwd()) + "/web_app/csv_files/tracks.csv"
+
+    try:
+        with open(csv_filepath, "w") as csv_file: # "w" means "open the file for writing"
+            writer = csv.writer(csv_file)
+            for track in tracks_list:
+                writer.writerow([str(track)])
+
+    except:
+        print("no csv file to write to")
+
+    success = "successfully written tracks"
+
+    return success
+
+
+def clear_tracks_csv():
+    print("clearing tracks")
+    csv_filepath = os.path.normpath(os.getcwd()) + "/web_app/csv_files/tracks.csv"
+    csv = open(csv_filepath, "w")
+    csv.truncate()
+    csv.close()
+
+    message = "cleared csv file"
+
+    return message
+
+
 
 
 
