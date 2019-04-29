@@ -1,16 +1,20 @@
 {% block content %}
 
-<h1> Name your playlist: <h2>
 
 
 
 
 
-	<form method = ["GET", "POST"] action="/builder/create_playlist/thank_you">
 
-		<input type ="text" name = "playlist_name"><br>
-		<input type ="submit" value="Make! Me! A! Playlist!" >
-	</form>
+
+<form method = ["GET", "POST"] action="/builder/create_playlist/thank_you">
+<h1> Name your playlist: </h1>
+	<input type ="text" name = "playlist_name"><br>
+	<input type ="submit" value="Make! Me! A! Playlist!" >
+</form>
+
+
+<span><b> Playlist description - </b>{{description}}</span>
 
 
 {% endblock %}

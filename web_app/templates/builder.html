@@ -1,3 +1,13 @@
+<style>
+
+aside {
+  float: right;
+  width: 20%;
+}
+
+</style>
+<!-- https://learn.shayhowe.com/html-css/positioning-content/ -->
+
 
 
 {% block title %}
@@ -14,6 +24,34 @@
     <input type="text" name="user_name" placeholder="Product XYZ" value="Product XYZ"> -->
 
 
+<!-- https://stackoverflow.com/questions/14525029/display-a-loading-message-while-a-time-consuming-function-is-executed-in-flask -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+
+
+<aside>
+<h2> Seeded Tracks </h1>
+{% for item in seeded_playlists %}
+	{{item}}
+	<br>
+
+{% endfor %}
+
+
+
+	<form method = "GET" action="/builder_redirect/">
+	
+		<input type ="submit" value="Clear seeds" >
+	</form>
+
+
+</aside>
+
+
+
+
+
+
 <p>
 	<h2> Pick a playlist to seed: </h2>
 
@@ -22,9 +60,9 @@
 	<select name="playlist" method="GET" action="/">> -->
 	<form method = "POST" action="/builder/addseed/">
 		<select name ="playlist_seed">
-	 		<option value="{{playlists[0][1]}}" selected>{{playlists[0][0]}}</option>
+	 		<option value="{{playlists[0]}}" selected>{{playlists[0][0]}}</option>
 	  		{% for item in playlists[1:] %}
-	    		<option value="{{item[1]}}">{{item[0:][0]}}</option>
+	    		<option value="{{item}}">{{item[0:][0]}}</option>
 	  		{% endfor %}
 		</select>
 	<!--</form>-->
@@ -38,21 +76,7 @@
 	<h2> Pick a top tracks term: </h2>
 	<form method = "POST" action="/builder/addtoptracksseed">
 		<select name ="term_seed">
-	 		<option value="{{ranges[0][1]}}" selected>{{ranges[0][0]}}</option>
-	  		{% for item in ranges[1:] %}
-	    		<option value="{{item[1]}}">{{item[0:][0]}}</option>
-	  		{% endfor %}
-		</select>
-
-    	<input type="submit" value="Add Seed" />
-	</form>
-
-
-
-	<h2> Practice: </h2>
-	<form method = "POST" action="/builder/addtoptracksseed">
-		<select name ="term_seed">
-	 		<option value="{{ranges[0][1]}}" selected>{{ranges[0][0]}}</option>
+	 		<option value="{{ranges[0]}}" selected>{{ranges[0][0]}}</option>
 	  		{% for item in ranges[1:] %}
 	    		<option value="{{item}}">{{item[0:][0]}}</option>
 	  		{% endfor %}
@@ -61,13 +85,19 @@
     	<input type="submit" value="Add Seed" />
 	</form>
 
-
-
-	<form method = "GET" action="/builder/create_playlist/">
-		<input type ="submit" value="Seeds Planted" >
+	<form method = "GET" action="/builder/create_playlist/" >
+		<input type ="submit" value="Seeds Planted" onclick="$('#loading').show();">
 	</form>
 
+
+
 </p>
+
+
+
+
+
+
 
 <!-- https://www.youtube.com/watch?v=DFCKWhoiHZ4 -->
 {% with messages = get_flashed_messages() %}
@@ -77,6 +107,10 @@
 		{% endfor %}
 	{% endif %}
 {% endwith %}
+
+
+<div id="loading" style="display:none;"><img src="https://media1.tenor.com/images/556e9ff845b7dd0c62dcdbbb00babb4b/tenor.gif?itemid=5300368" alt="" /></div>
+
 
 
 

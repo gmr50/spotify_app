@@ -9,7 +9,9 @@ import pprint as pprint
 import pandas
 import numpy
 import dotenv
+import csv
 
+from spotify_methods import read_tracks_from_csv, clear_tracks_csv
 
 import random
 from datetime import datetime
@@ -41,41 +43,13 @@ if token:
 	sp = spotipy.Spotify(auth=token)
 
 
+print("trying to delete tracks")
+clear_tracks_csv()
 
 
 
 
 
-
-playlists = sp.user_playlists(username)
-name_array = [] 
-id_array = []
-x = 0
-for item in playlists["items"]:
-
-	name_array.append(item["name"])
-	id_array.append(item["id"])
-
-
-gmr_list = []
-gmr_id = []
-
-for item, id_code in zip(name_array, id_array):
-	result = item.startswith("GMR HIST MCHN")
-	if(result):
-		gmr_list.append(item)
-		gmr_id.append(id_code)
-
-
-
-print(gmr_list)
-print(gmr_id)
-
-
-if(len(gmr_id) > 2):
-
-	gmr_id[-1]
-	sp.user_playlist_unfollow(username, gmr_id[-1])
 
 
 
