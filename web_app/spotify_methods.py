@@ -162,8 +162,9 @@ def build_playlist(tracks, token):
     x = 0
 
     if loopagain:
-        while x < limit:
-
+        while x < min(limit,len(sublist)):
+            print(x)
+            print(sublist[x])
             recomends = sp.recommendations(seed_tracks=list(sublist[x]), limit=2)
             #adds the second returned recommendation
             rec_list.append(recomends['tracks'][1]['id'])
@@ -187,6 +188,9 @@ def execute_playlist(token, username, recommendations, playlist_name, descriptio
  
     #creates playlist
     #https://github.com/plamere/spotipy/blob/master/examples/create_playlist.py
+    description = str(description)
+
+    description = description[0:300]
     playlists = sp.user_playlist_create(username, playlist_name, public = True, description = description)
 
 

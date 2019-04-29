@@ -25,11 +25,10 @@ def index():
 
     #declaring session variable to send playlist seeds to
     playlists_list = []
-    tracks_list = []
     seeds_added_list = []
     session['playlists_list'] = playlists_list
-    session['tracks_list'] = tracks_list
     session['seeds_added_list'] = seeds_added_list
+
 
 
     return render_template("index.html")
@@ -118,6 +117,7 @@ def seedbuilder():
 
 
     ranges = [['short term', 'short_term'], ['medium term', 'medium_term'], ['long term', 'long_term']]
+    seeded_playlists = session.get('seeds_added_list', None)
 
     #user_id = "gmr0678"
     user_id = session.get('username', None)
@@ -131,7 +131,7 @@ def seedbuilder():
 
         user_playlists = get_user_playlists(builder_token, user_id)
 
-        return render_template("builder.html", playlists = user_playlists, ranges = ranges)
+        return render_template("builder.html", playlists = user_playlists, ranges = ranges, seeded_playlists = seeded_playlists)
 
 
 
@@ -145,7 +145,10 @@ def seedbuilder():
 @home_routes.route("/builder_redirect/", methods=['GET'])
 def redirect_builder():
     
-    session['tracks_list'] = []
+    clear_tracks_csv()
+    session['playlists_list'] = []
+    session['seeds_added_list'] = []
+    session['recommendations'] = []
 
     return redirect("/builder/")
 
@@ -269,7 +272,7 @@ def playlist_builder():
 
     #gets track list from CSV and then 
     tracks_list = read_tracks_from_csv()
-    clear_tracks_csv()
+    #clear_tracks_csv()
 
     print("in flash route")
 
@@ -293,7 +296,7 @@ def playlist_builder():
 def name_playlist():
 
     #clears the csv file
-    clear_tracks_csv()
+    #clear_tracks_csv()
 
     description_variables = session.get('seeds_added_list', None)
 
@@ -304,7 +307,9 @@ def name_playlist():
 
     playlist_description = playlist_description[:-2]
 
-    session[playlist_description] = playlist_description
+    print("playlist description: ")
+    print(playlist_description)
+    session['playlist_description'] = playlist_description
 
     return render_template("plant_tree.html", description = playlist_description)
 
@@ -349,7 +354,16 @@ def thank_you(playlist_name = None):
 
 
 
+@home_routes.route("/logout/")
+def logout():
 
+    clear_tracks_csv()
+    session['playlists_list'] = []
+    session['seeds_added_list'] = []
+    session['recommendations'] = []
+
+    session['token_var'] = "empty token"
+    return(redirect('/'))
 
 #Nnot working
 @home_routes.errorhandler(404)
