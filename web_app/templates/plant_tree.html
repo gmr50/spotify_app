@@ -2,7 +2,12 @@
 
 
 
+<head>
+	<link href="{{ url_for('static', filename='stylesheet.css') }}" rel = "stylesheet" type = "text/css" />
+</head>
 
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/6vRwGft/Graham-Transparent-Logo.png" alt="Graham-Transparent-Logo" border="0" height ="100" width ="190"></a>
 
 
 
@@ -10,11 +15,21 @@
 <form method = ["GET", "POST"] action="/builder/create_playlist/thank_you">
 <h1> Name your playlist: </h1>
 	<input type ="text" name = "playlist_name"><br>
-	<input type ="submit" value="Make! Me! A! Playlist!" >
+	<button class="button-style" value="Make! Me! A! Playlist!">Make! Me! A! Playlist!</button>
 </form>
 
 
 <span><b> Playlist description - </b>{{description}}</span>
 
+
+
+<footer class ="footer">
+
+    <p>
+    <hr>
+    &copy; Copyright 2019 Graham Ritter
+    </p>
+   
+</footer>
 
 {% endblock %}

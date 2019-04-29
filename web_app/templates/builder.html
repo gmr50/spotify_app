@@ -8,7 +8,11 @@ aside {
 </style>
 <!-- https://learn.shayhowe.com/html-css/positioning-content/ -->
 
+<head>
+	<link href="{{ url_for('static', filename='stylesheet.css') }}" rel = "stylesheet" type = "text/css" />
+</head>
 
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/6vRwGft/Graham-Transparent-Logo.png" alt="Graham-Transparent-Logo" border="0" height ="100" width ="190"></a>
 
 {% block title %}
   <title>Seed Builder</title>
@@ -18,10 +22,6 @@ aside {
   <h2>Please select the playlists you would like to seed for this playlist</h2>
   <h3>Be creative, options available aren't just playlists you've created.</h3>
 
-
- <!-- <form action="/login/create" method="POST">
-    <label>Username:</label>
-    <input type="text" name="user_name" placeholder="Product XYZ" value="Product XYZ"> -->
 
 
 <!-- https://stackoverflow.com/questions/14525029/display-a-loading-message-while-a-time-consuming-function-is-executed-in-flask -->
@@ -41,14 +41,12 @@ aside {
 
 	<form method = "GET" action="/builder_redirect/">
 	
-		<input type ="submit" value="Clear seeds" >
+		
+		<button class="button-style" value="Clear seeds">Clear Seeds</button>
 	</form>
 
 
 </aside>
-
-
-
 
 
 
@@ -57,7 +55,7 @@ aside {
 
 
 	<!-- https://stackoverflow.com/questions/45877080/how-to-create-dropdown-menu-from-python-list-using-flask-and-html
-	<select name="playlist" method="GET" action="/">> -->
+	-->
 	<form method = "POST" action="/builder/addseed/">
 		<select name ="playlist_seed">
 	 		<option value="{{playlists[0]}}" selected>{{playlists[0][0]}}</option>
@@ -68,8 +66,7 @@ aside {
 	<!--</form>-->
 
 
-	<!-- <form action="/builder/addseed/"> -->
-    	<input type="submit" value="Add Seed" />
+    	<button class="button-style" value="Add Seed">Add Seed</button>
 	</form>
 
 
@@ -82,11 +79,12 @@ aside {
 	  		{% endfor %}
 		</select>
 
-    	<input type="submit" value="Add Seed" />
+		<button class="button-style" value="Add Seed">Add Seed</button>
 	</form>
 
 	<form method = "GET" action="/builder/create_playlist/" >
-		<input type ="submit" value="Seeds Planted" onclick="$('#loading').show();">
+		<button class="button-style" value="Seeds Planted" onclick="$('#loading').show();">Seeds Planted</button>
+		<!--<input type ="submit" value="Seeds Planted" onclick="$('#loading').show();">-->
 	</form>
 
 
@@ -109,7 +107,17 @@ aside {
 {% endwith %}
 
 
-<div id="loading" style="display:none;"><img src="https://media1.tenor.com/images/556e9ff845b7dd0c62dcdbbb00babb4b/tenor.gif?itemid=5300368" alt="" /></div>
+<div id="loading" style="display:none;"><a href="https://gifyu.com/image/9w1e"><img src="https://s3.gifyu.com/images/loading2.gif" alt="loading2.gif" border="0" height = "150" width = "200"/></a></div>
+
+
+<footer class ="footer">
+
+    <p>
+    <hr>
+    &copy; Copyright 2019 Graham Ritter
+    </p>
+   
+</footer>
 
 
 

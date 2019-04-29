@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
   <head>
@@ -5,10 +6,17 @@
       <title>Algo-Mach</title>
     {% endblock %}
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--https://stackoverflow.com/questions/13772884/css-problems-with-flask-web-app -->
+    <link href="{{ url_for('static', filename='stylesheet.css') }}" rel = "stylesheet" type = "text/css" />
+    
+
+
   </head>
 
-  <body>
+
+  <body> 
+  <a href="https://ibb.co/tCgS2fv"><img src="https://i.ibb.co/w6VTQHP/Graham-Transparent-Logo-White.png" alt="Graham-Transparent-Logo-White" border="0"></a>
+
     <!-- FLASH MESSAGING -->
     <!-- see: http://flask.pocoo.org/docs/1.0/patterns/flashing/#flashing-with-categories -->
     <!-- see: https://getbootstrap.com/docs/4.3/components/alerts/ -->
@@ -24,34 +32,29 @@
     {% endwith %}
 
     <!-- SITE NAVIGATION -->
-    <div class="container">
-      <div id="nav">
-        {% block nav %}
-          <h1>GMR's Algo-Machine</h1>
+
+
+
           <h2>Giving users the power to make their own algo-playlists</h2>
           <ul>
-            <li><a href="/hello">Hello Page</a></li>
-            <li><a href="/products">Products Page</a></li>
-            <li><a href="/products/new">New Product Form</a></li>
             <li><a href="/login">Login</a></li>
 
           </ul>
-        {% endblock %}
-      </div>
+
+
       <hr>
 
-      <!-- PAGE CONTENTS *********where is this information coming from?************** -->
-      <div id="content">     
-        {% block content %}
-        {% endblock %}
-      </div>
+  </body>
 
       <!-- FOOTER -->
-      <div id="footer">
+      <footer class ="footer">
+
+        <p>
         <hr>
         &copy; Copyright 2019 Graham Ritter
-      </div>
-    </div>
+        </p>
+   
+    </footer>
 
     <!-- JAVASCRIPT SECTION -->
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
@@ -65,5 +68,9 @@
         $().alert('close')
 
     </script>
-  </body>
+
+
+
+
 </html>
+
