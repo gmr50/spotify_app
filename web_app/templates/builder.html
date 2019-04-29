@@ -19,10 +19,6 @@ aside {
   <h3>Be creative, options available aren't just playlists you've created.</h3>
 
 
- <!-- <form action="/login/create" method="POST">
-    <label>Username:</label>
-    <input type="text" name="user_name" placeholder="Product XYZ" value="Product XYZ"> -->
-
 
 <!-- https://stackoverflow.com/questions/14525029/display-a-loading-message-while-a-time-consuming-function-is-executed-in-flask -->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
@@ -49,15 +45,12 @@ aside {
 
 
 
-
-
-
 <p>
 	<h2> Pick a playlist to seed: </h2>
 
 
 	<!-- https://stackoverflow.com/questions/45877080/how-to-create-dropdown-menu-from-python-list-using-flask-and-html
-	<select name="playlist" method="GET" action="/">> -->
+	-->
 	<form method = "POST" action="/builder/addseed/">
 		<select name ="playlist_seed">
 	 		<option value="{{playlists[0]}}" selected>{{playlists[0][0]}}</option>
