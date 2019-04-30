@@ -19,6 +19,8 @@ def create_app():
 	app.register_blueprint(home_routes)
 	app.static_folder = 'static'
 
+
+
 	#error handling
 	@app.errorhandler(werkzeug.exceptions.NotFound)
 	def handle_bad_request(e):
@@ -30,17 +32,9 @@ def create_app():
 		print(e)
 		return render_template("page_not_found.html"), 401
 
-	@app.errorhandler(401)
-	def handle_unlogged_request(e):
-		print("****")
-		print(e)
-		return render_template("page_not_found.html"), 401
-
-
 	app.register_error_handler(404, handle_bad_request)
 	app.register_error_handler(401, handle_unauthorized_request)
-	app.register_error_handler(401, handle_unlogged_request)
-	#app.register_error_handler(200, handle_test_request)
+
 
 
 
