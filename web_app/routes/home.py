@@ -1,6 +1,6 @@
 
 from flask import Blueprint, request, render_template, redirect, session, url_for, flash
-from web_app.spotify_methods import prompt_token_flask, get_user_playlists, add_playlist_for_seed, add_tracks_for_seed, add_top_tracks_for_seed, build_playlist, execute_playlist, playlist_unfollow, strip_selection, read_tracks_from_csv, write_tracks_to_csv, clear_tracks_csv
+from web_app.spotify_methods import prompt_token_flask, get_user_playlists, add_playlist_for_seed, add_tracks_for_seed, add_top_tracks_for_seed, build_playlist, execute_playlist, playlist_unfollow, strip_selection, read_tracks_from_csv, write_tracks_to_csv, clear_tracks_csv, check_login
 import werkzeug
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -37,13 +37,22 @@ def Login(name=None):
 @home_routes.route("/login/create/", methods = ['GET', 'POST'])
 def Execute(username=None):
     print("Executing login script")
+
     username = request.args["username"]
-    print(username)
 
-    session['username'] = username
+    username_detected = False
 
-    auth_url = prompt_token_flask(username).get_authorize_url() #> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
-    return redirect(auth_url)
+    if(username):
+        username_detected = True
+
+
+    if(username_detected):
+        session['username'] = username
+
+        auth_url = prompt_token_flask(username).get_authorize_url() #> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
+        return redirect(auth_url)
+    else:
+        return render_template("no_token.html")
 
     app.run(debug=True)
 
@@ -71,10 +80,11 @@ def Callback(code=None):
 
         session['token_var'] = token
 
-
-        
-
-        return redirect("/builder")
+        check = check_login(token, user_id)
+        if(check):
+            return redirect("/builder")
+        else:
+            return render_template("no_token.html")
     else:
         message = "OOPS, UNABLE TO GET CODE"
         print(message)
@@ -91,12 +101,16 @@ def seedbuilder():
 
     user_id = session.get('username', None)
 
+    token_check = False
+
     try:
         builder_token = session.get('token_var', None)
+        if(builder_token != "Null"):
+            token_check = True
     except:
         print("failed to get session variable")
 
-    if(builder_token):
+    if(token_check):
 
         user_playlists = get_user_playlists(builder_token, user_id)
 
@@ -303,13 +317,7 @@ def logout():
     session['seeds_added_list'] = []
     session['recommendations'] = []
 
-    session['token_var'] = "empty token"
+    session['token_var'] = "Null"
     return(redirect('/'))
 
-
-
-#Nnot working
-@home_routes.errorhandler(404)
-def page_not_found(error):
-    return render_template('page_not_found.html'), 404
 

@@ -1,4 +1,22 @@
 
+<head>
+	<link href="{{ url_for('static', filename='stylesheet.css') }}" rel = "stylesheet" type = "text/css" />
+</head>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/6vRwGft/Graham-Transparent-Logo.png" alt="Graham-Transparent-Logo" border="0" height ="100" width ="190"></a>
+
+
 {% block content %}
-<h1> There is no token </h1>
+<h1> No Token! </h1>
+You may not have signed in or the current user logged in on your browser is different than your username <br>
+<a href="http://localhost:5000/login">Return to login</a>
+
+
+<footer class ="footer">
+
+    <p>
+    <hr>
+    &copy; Copyright 2019 Graham Ritter
+    </p>
+   
+</footer>
 {% endblock %}
