@@ -1,7 +1,4 @@
 python-dotenv
 Flask
-gunicorn
 spotipy
-pprint
-pandas
-numpy
+

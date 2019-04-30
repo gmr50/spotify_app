@@ -1,0 +1,53 @@
+
+<head>
+	<link href="{{ url_for('static', filename='stylesheet.css') }}" rel = "stylesheet" type = "text/css" />
+</head>
+
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/6vRwGft/Graham-Transparent-Logo.png" alt="Graham-Transparent-Logo" border="0" height ="100" width ="190"></a>
+
+<body>
+{% block title %}
+  <title>Login</title>
+{% endblock %}
+
+{% block content %}
+  <h2>Login</h2>
+
+  Make sure that you are logged into your spotify in the web browser!
+  <ul> If your account was made separate from Facebook: find your username at https://www.spotify.com/us/account/overview </ul>
+  <ul> If you made your account with Facebook, in the Spotify app go to profile -> share -> copy profile link, your username is the string of characters after user/ and before ?</ul>
+<a href="https://www.spotify.com/" target="_blank">Spotify web link</a>
+<a href="https://www.spotify.com/logout" target="_blank">Logout of Spotify</a>
+<a href="https://www.facebook.com" target="_blank">Log out of Facebook</a>
+
+
+  <h3>Login below</h3>
+
+
+ <!-- <form action="/login/create" method="POST">
+    <label>Username:</label>
+    <input type="text" name="user_name" placeholder="Product XYZ" value="Product XYZ"> -->
+
+
+
+<form method = ["GET", "POST"] action="/login/create/">
+	<input type="text" name = "username">
+  <button class="button-style" value="Login"> Login
+  </botton>
+</form>
+
+</body>
+
+<footer class ="footer">
+
+    <p>
+    <hr>
+    &copy; Copyright 2019 Graham Ritter
+    </p>
+   
+</footer>
+
+
+
+{% endblock %}

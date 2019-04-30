@@ -1,0 +1,39 @@
+{% block title %}
+
+
+
+<head>
+	<link href="{{ url_for('static', filename='stylesheet.css') }}" rel = "stylesheet" type = "text/css" />
+</head>
+
+  <a href="https://ibb.co/tCgS2fv"><img src="https://i.ibb.co/w6VTQHP/Graham-Transparent-Logo-White.png" alt="Graham-Transparent-Logo-White" border="0"></a>
+
+<h1> Your playlist has been made!!!! </h1>
+
+
+
+
+
+<form method = "GET" action="/builder_redirect/">
+	Make another playlist: 
+	<button class="button-style" value="Back to Builder">Back to Builder</button>
+</form>
+
+<form method = "GET" action="/logout/">
+	<button class="button-style" value="Logout">Logout</button>
+</form>
+
+<footer class ="footer">
+
+    <p>
+    <hr>
+    &copy; Copyright 2019 Graham Ritter
+    </p>
+   
+</footer>
+
+
+
+{% endblock %}
+
+

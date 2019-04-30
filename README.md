@@ -1,27 +1,24 @@
-conda activate spotify_env3
+REQUIREMENTS:
+++ Create an environment, upgrade to latest version of Python, if using conda: conda install python==3.7
+++ Install the requirements file: pip install -r requirements.txt
+++ Upgrade to the latest version of Spotipy: pip install git+https://github.com/plamere/spotipy.git --upgrade
+++ Set your environment variables: CLIENT_ID and CLIENT_SECRET, from the Spotify API
+
++++++++++++++++++++++++++++++
+Activate with: FLASK_APP=web_app flask run
+Open browser, navigate to localhost:5000
+
+
+++++++++++++++++++++++++++++++
+Testing
+install pytest: pip install pytest
+Enter pytest in the commandline, the testing file is found at web_app/test_spotify.py
 
 
 
-Installing collected packages: six, spotipy
-  Found existing installation: spotipy 2.4.4
-    Uninstalling spotipy-2.4.4:
-      Successfully uninstalled spotipy-2.4.4
-Successfully installed six-1.12.0 spotipy-2.4.4
 
 
 
 
-****************************************************************
-HAVE TO USE THIS COMMAND after pip install spotipy: pip install git+https://github.com/plamere/spotipy.git --upgrade
 
 
-grahamritter$ heroku run bash -a web-app-starter-flask-gmr
-
-
-when i tried to install pandas in requirements, on my machine wouldnt work
-then still needs on the server# spotify_app
-
-
-
-heroku git:remote -a spotify-playlist-app-gmr 
-//again, doesn’t work as expected, doesn’t recognize language

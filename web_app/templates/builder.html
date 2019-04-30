@@ -1,0 +1,125 @@
+<style>
+
+aside {
+  float: right;
+  width: 20%;
+}
+
+</style>
+<!-- https://learn.shayhowe.com/html-css/positioning-content/ -->
+
+<head>
+	<link href="{{ url_for('static', filename='stylesheet.css') }}" rel = "stylesheet" type = "text/css" />
+</head>
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/6vRwGft/Graham-Transparent-Logo.png" alt="Graham-Transparent-Logo" border="0" height ="100" width ="190"></a>
+
+{% block title %}
+  <title>Seed Builder</title>
+{% endblock %}
+
+{% block content %}
+  <h2>Please select the playlists you would like to seed for this playlist</h2>
+  <h3>Be creative, options available aren't just playlists you've created.</h3>
+
+
+
+<!-- https://stackoverflow.com/questions/14525029/display-a-loading-message-while-a-time-consuming-function-is-executed-in-flask -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+
+
+<aside>
+<h2> Seeded Tracks </h1>
+{% for item in seeded_playlists %}
+	{{item}}
+	<br>
+
+{% endfor %}
+
+
+
+	<form method = "GET" action="/builder_redirect/">
+	
+		
+		<button class="button-style" value="Clear seeds">Clear Seeds</button>
+	</form>
+
+
+</aside>
+
+
+
+<p>
+	<h2> Pick a playlist to seed: </h2>
+
+
+	<!-- https://stackoverflow.com/questions/45877080/how-to-create-dropdown-menu-from-python-list-using-flask-and-html
+	-->
+	<form method = "POST" action="/builder/addseed/">
+		<select name ="playlist_seed">
+	 		<option value="{{playlists[0]}}" selected>{{playlists[0][0]}}</option>
+	  		{% for item in playlists[1:] %}
+	    		<option value="{{item}}">{{item[0:][0]}}</option>
+	  		{% endfor %}
+		</select>
+	<!--</form>-->
+
+
+    	<button class="button-style" value="Add Seed">Add Seed</button>
+	</form>
+
+
+	<h2> Pick a top tracks term: </h2>
+	<form method = "POST" action="/builder/addtoptracksseed">
+		<select name ="term_seed">
+	 		<option value="{{ranges[0]}}" selected>{{ranges[0][0]}}</option>
+	  		{% for item in ranges[1:] %}
+	    		<option value="{{item}}">{{item[0:][0]}}</option>
+	  		{% endfor %}
+		</select>
+
+		<button class="button-style" value="Add Seed">Add Seed</button>
+	</form>
+
+	<form method = "GET" action="/builder/create_playlist/" >
+		<button class="button-style" value="Seeds Planted" onclick="$('#loading').show();">Seeds Planted</button>
+		<!--<input type ="submit" value="Seeds Planted" onclick="$('#loading').show();">-->
+	</form>
+
+
+
+</p>
+
+
+
+
+
+
+
+<!-- https://www.youtube.com/watch?v=DFCKWhoiHZ4 -->
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		{% for message in messages %}
+			<h3> {{message}} </h3>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
+
+
+<div id="loading" style="display:none;"><a href="https://gifyu.com/image/9w1e"><img src="https://s3.gifyu.com/images/loading2.gif" alt="loading2.gif" border="0" height = "150" width = "200"/></a></div>
+
+
+<footer class ="footer">
+
+    <p>
+    <hr>
+    &copy; Copyright 2019 Graham Ritter
+    </p>
+   
+</footer>
+
+
+
+
+{% endblock %}
