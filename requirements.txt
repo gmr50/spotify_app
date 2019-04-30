@@ -1,8 +1,4 @@
 python-dotenv
 Flask
-gunicorn
 spotipy
-pandas
-numpy
-gspread
-oauth2client
+

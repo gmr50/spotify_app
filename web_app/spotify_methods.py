@@ -18,6 +18,7 @@ def prompt_token_flask(user_id):
 
     username = user_id
 
+
     
 
     scope = 'user-top-read playlist-modify-public'
