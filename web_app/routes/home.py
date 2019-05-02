@@ -47,7 +47,9 @@ def Execute(username=None):
 
 
     if(username_detected):
+        print("username detected")
         session['username'] = username
+        print("saved to memory")
 
         auth_url = prompt_token_flask(username).get_authorize_url() #> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
         return redirect(auth_url)
