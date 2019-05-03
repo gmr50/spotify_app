@@ -74,7 +74,7 @@ def Callback(code=None):
 
     print("callback")
     user_id = read_username_from_csv()
-    
+
 
     #delete user id from csv to maintain clean code
     clear_username_csv()
@@ -118,7 +118,11 @@ def seedbuilder():
 
 
     ranges = [['short term', 'short_term'], ['medium term', 'medium_term'], ['long term', 'long_term']]
-    seeded_playlists = session.get('seeds_added_list', None)
+    try:
+        seeded_playlists = session.get('seeds_added_list', None)
+    except:
+        seeded_playlists = []
+        session['seeds_added_list'] = []
 
     user_id = session.get('username', None)
 
