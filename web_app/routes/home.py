@@ -119,15 +119,18 @@ def seedbuilder():
 
     print("in builder")
     ranges = [['short term', 'short_term'], ['medium term', 'medium_term'], ['long term', 'long_term']]
-    try:
+    
 
+    try:
+        print("try")
         seeded_playlists = session.get('seeds_added_list', None)
     except:
+        print("except")
         seeded_playlists = []
         session['seeds_added_list'] = []
 
 
-    print("seeded playlists: " + seeded_playlists)
+    
     user_id = session.get('username', None)
 
     token_check = False
