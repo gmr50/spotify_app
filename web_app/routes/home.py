@@ -68,6 +68,8 @@ def Callback(code=None):
 
     print("callback")
     user_id = session.get('username', None)
+    print("get user id from cookie")
+    print(user_id)
 
     #gets authorization code from url
     print("SPOTIFY CALLBACK")
