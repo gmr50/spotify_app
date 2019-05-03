@@ -48,6 +48,7 @@ def Execute(username=None):
 
 
     if(username_detected):
+        print("debug: " + username)
         print("username detected")
         session['username'] = username
         print("saved to memory")

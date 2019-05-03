@@ -14,9 +14,11 @@ import csv
 def prompt_token_flask(user_id):
 
 
-
+    print("user id:" + user_id)
 
     username = user_id
+
+    print("debug 123 username " + username)
 
 
     
