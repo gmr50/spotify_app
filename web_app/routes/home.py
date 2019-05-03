@@ -16,6 +16,7 @@ def index():
     #declaring session variable to send playlist seeds to
     playlists_list = []
     seeds_added_list = []
+    session['description'] = ""
     session['playlists_list'] = playlists_list
     session['seeds_added_list'] = seeds_added_list
 
@@ -307,7 +308,9 @@ def thank_you(playlist_name = None):
     print("got recommendations")
     description = session.get('playlist_description', None)
     print("got description")
+    session['description'] = ""
 
+    # *********
     message = execute_playlist(token, username, recommendations, playlist_name, description)
     print("executed playlist")
     message = playlist_unfollow(username, token)
