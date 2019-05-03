@@ -1,3 +1,2 @@
-/web_app/caches/*
 .env
 /web_app/__pycache__
