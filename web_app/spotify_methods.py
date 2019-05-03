@@ -184,7 +184,7 @@ def execute_playlist(token, username, recommendations, playlist_name, descriptio
     description1 = description[0:300]
     print("description debug: " + description)
     #playlists = sp.user_playlist_create(username, playlist_name, public = True, description = description1)
-    playlists = sp.user_playlist_create(username, playlist_name, public = True, description=description1)
+    playlists = sp.user_playlist_create(username, playlist_name, public = True)
 
     playlist_id = playlists['id']
 
