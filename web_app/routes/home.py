@@ -51,7 +51,8 @@ def Execute(username=None):
         session['username'] = username
         print("saved to memory")
 
-        auth_url = prompt_token_flask(username).get_authorize_url() #> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
+        auth_url = prompt_token_flask(username).get_authorize_url()#> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
+        print("redirect")
         return redirect(auth_url)
     else:
         return render_template("no_token.html")
@@ -63,7 +64,7 @@ def Execute(username=None):
 @home_routes.route("/callback/")
 def Callback(code=None):
 
-    
+    print("callback")
     user_id = session.get('username', None)
 
     #gets authorization code from url

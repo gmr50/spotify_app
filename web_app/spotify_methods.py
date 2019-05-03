@@ -24,7 +24,7 @@ def prompt_token_flask(user_id):
     scope = 'user-top-read playlist-modify-public'
     client_id_saved = os.environ.get("CLIENT_ID", "Oops, please set env var called 'CLIENT_ID'")
     client_secret_saved = os.environ.get("CLIENT_SECRET", "Oops, please set env var called  'CLIENT_SECRET")
-    redirect_uri_saved = "http://localhost:5000/callback/"
+    redirect_uri_saved = os.environ.get("REDIRECT_URL", "http://localhost:5000/callback/")
     path = (os.path.normpath(os.getcwd()) + "/web_app/caches/.cache-" + username)
 
 
