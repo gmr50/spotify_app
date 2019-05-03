@@ -292,6 +292,8 @@ def read_username_from_csv():
             print("updating username")
             username = str(row)
             username = username[2:-2]
+            print("read username:")
+            print(username)
 
     return username
 

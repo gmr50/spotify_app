@@ -1,6 +1,6 @@
 
 from flask import Blueprint, request, render_template, redirect, session, url_for, flash
-from web_app.spotify_methods import prompt_token_flask, get_user_playlists, add_playlist_for_seed, add_tracks_for_seed, add_top_tracks_for_seed, build_playlist, execute_playlist, playlist_unfollow, strip_selection, read_tracks_from_csv, write_tracks_to_csv, clear_tracks_csv, check_login
+from web_app.spotify_methods import prompt_token_flask, get_user_playlists, add_playlist_for_seed, add_tracks_for_seed, add_top_tracks_for_seed, build_playlist, execute_playlist, playlist_unfollow, strip_selection, read_tracks_from_csv, write_tracks_to_csv, clear_tracks_csv, check_login, write_username_to_csv, read_username_from_csv, clear_username_csv
 import werkzeug
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -50,9 +50,13 @@ def Execute(username=None):
     if(username_detected):
         print("debug: " + username)
         print("username detected")
-        session['username'] = username
-        session_saved = session.get('username', None)
-        print(session_saved)
+        #session['username'] = username
+
+        write_username_to_csv(username)
+
+
+
+
         print("saved to memory")
 
         auth_url = prompt_token_flask(username).get_authorize_url()#> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
@@ -69,8 +73,16 @@ def Execute(username=None):
 def Callback(code=None):
 
     print("callback")
-    user_id = session.get('username', None)
-    print("get user id from cookie")
+    user_id = read_username_from_csv()
+    
+
+    #delete user id from csv to maintain clean code
+    clear_username_csv()
+
+    #changed flow to accommodate changes of domain, resets session variable with expectation session will persist
+    session['username'] = user_id
+
+    print("get user id from csv")
     print(user_id)
 
     #gets authorization code from url
