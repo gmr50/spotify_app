@@ -86,7 +86,7 @@ def Callback(code=None):
 
         check = check_login(token, user_id)
         if(check):
-            return redirect("www.algorithmmachine.com/builder")
+            return redirect("/builder")
         else:
             return render_template("no_token.html")
     else:
