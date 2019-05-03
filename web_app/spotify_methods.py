@@ -25,8 +25,10 @@ def prompt_token_flask(user_id):
     client_id_saved = os.environ.get("CLIENT_ID", "Oops, please set env var called 'CLIENT_ID'")
     client_secret_saved = os.environ.get("CLIENT_SECRET", "Oops, please set env var called  'CLIENT_SECRET")
     redirect_uri_saved = os.environ.get("REDIRECT_URL", "http://localhost:5000/callback/")
+    print(os.path.normpath(os.getcwd())
+    print(username)
     path = (os.path.normpath(os.getcwd()) + "/web_app/caches/.cache-" + username)
-    print(path)
+
 
 
 
