@@ -181,10 +181,10 @@ def execute_playlist(token, username, recommendations, playlist_name, descriptio
     #https://github.com/plamere/spotipy/blob/master/examples/create_playlist.py
     description = str(description)
 
-    description = description[0:300]
+    description1 = description[0:300]
     print("description debug: " + description)
-    playlists = sp.user_playlist_create(username, playlist_name, public = True, description = description)
-
+    playlists = sp.user_playlist_create(username, playlist_name, public = True, description = description1)
+    #playlists = sp.user_playlist_create(username, playlist_name, public = True)
 
     playlist_id = playlists['id']
 
