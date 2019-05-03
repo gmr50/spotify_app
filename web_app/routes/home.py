@@ -121,13 +121,17 @@ def seedbuilder():
     ranges = [['short term', 'short_term'], ['medium term', 'medium_term'], ['long term', 'long_term']]
     
 
-    try:
-        print("try")
-        seeded_playlists = session.get('seeds_added_list', None)
-    except:
-        print("except")
+
+    seeded_playlists = session.get('seeds_added_list', None)
+    if(seeded_playlists):
+        print("playlists detected")
+    else:
+        print("seed session variable set")
         seeded_playlists = []
-        session['seeds_added_list'] = []
+        session['seeds_added_list'] = seeded_playlists
+
+
+
 
 
     
