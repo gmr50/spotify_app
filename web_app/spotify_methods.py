@@ -279,6 +279,22 @@ def read_tracks_from_csv():
 
     return csv_list
 
+def read_username_from_csv():
+
+    csv_filepath = os.path.normpath(os.getcwd()) + "/web_app/csv_files/username.csv"
+
+    #https://therenegadecoder.com/code/how-to-check-if-a-file-exists-in-python/
+    exists = os.path.isfile(csv_filepath)
+
+    with open(csv_filepath, "r") as csv_file:
+        reader = csv.reader(csv_file)
+        for row in reader:
+            print("updating username")
+            username = str(row)
+            username = username[2:-2]
+
+    return username
+
 
 
 def write_tracks_to_csv(tracks_list):
@@ -299,6 +315,23 @@ def write_tracks_to_csv(tracks_list):
     return success
 
 
+def write_username_to_csv(username):
+    csv_filepath = os.path.normpath(os.getcwd()) + "/web_app/csv_files/username.csv"
+
+    try:
+        with open(csv_filepath, "w") as csv_file: # "w" means "open the file for writing"
+            writer = csv.writer(csv_file)
+            writer.writerow([str(username)])
+
+    except:
+        print("no csv file to write to")
+
+    success = True
+
+    return success
+
+
+
 def clear_tracks_csv():
     print("clearing tracks")
     csv_filepath = os.path.normpath(os.getcwd()) + "/web_app/csv_files/tracks.csv"
@@ -309,6 +342,20 @@ def clear_tracks_csv():
     cleared = True
 
     return cleared
+
+def clear_username_csv():
+    
+    print("clearing tracks")
+    csv_filepath = os.path.normpath(os.getcwd()) + "/web_app/csv_files/username.csv"
+    csv = open(csv_filepath, "w")
+    csv.truncate()
+    csv.close()
+
+    cleared = True
+
+    return cleared
+
+
 
 def check_login(token,user_id):
     sp = spotipy.Spotify(auth=token)
