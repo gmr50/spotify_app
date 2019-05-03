@@ -103,6 +103,7 @@ def Callback(code=None):
 
         check = check_login(token, user_id)
         if(check):
+            print("redirecting builder")
             return redirect("/builder")
         else:
             return render_template("no_token.html")
@@ -116,7 +117,7 @@ def Callback(code=None):
 @home_routes.route("/builder/", methods=['POST','GET'])
 def seedbuilder():
 
-
+    print("in builder")
     ranges = [['short term', 'short_term'], ['medium term', 'medium_term'], ['long term', 'long_term']]
     try:
         seeded_playlists = session.get('seeds_added_list', None)
