@@ -146,6 +146,7 @@ def AddSeed():
 
     try:
         token = session.get('token_var', None)
+
     except:
         print("failed to get session variable")
 
@@ -293,6 +294,8 @@ def thank_you(playlist_name = None):
 
     try:
         token = session.get('token_var', None)
+        print("debug")
+        print(token)
     except:
         print("failed to get session variable")
 
@@ -301,9 +304,12 @@ def thank_you(playlist_name = None):
     playlist_name = request.args["playlist_name"]
     username = session.get('username', None)
     recommendations = session.get('recommendations', None)
+    print("got recommendations")
     description = session.get('playlist_description', None)
+    print("got description")
 
     message = execute_playlist(token, username, recommendations, playlist_name, description)
+    print("executed playlist")
     message = playlist_unfollow(username, token)
 
 
