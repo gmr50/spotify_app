@@ -120,6 +120,7 @@ def seedbuilder():
     print("in builder")
     ranges = [['short term', 'short_term'], ['medium term', 'medium_term'], ['long term', 'long_term']]
     try:
+
         seeded_playlists = session.get('seeds_added_list', None)
     except:
         seeded_playlists = []
@@ -131,6 +132,7 @@ def seedbuilder():
 
     try:
         builder_token = session.get('token_var', None)
+        print("builder_token" + builder_token)
         if(builder_token != "Null"):
             token_check = True
     except:
@@ -139,7 +141,7 @@ def seedbuilder():
     if(token_check):
 
         user_playlists = get_user_playlists(builder_token, user_id)
-
+        print("got user playlists")
         return render_template("builder.html", playlists = user_playlists, ranges = ranges, seeded_playlists = seeded_playlists)
 
 
