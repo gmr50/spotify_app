@@ -126,6 +126,8 @@ def seedbuilder():
         seeded_playlists = []
         session['seeds_added_list'] = []
 
+
+    print("seeded playlists: " + seeded_playlists)
     user_id = session.get('username', None)
 
     token_check = False
