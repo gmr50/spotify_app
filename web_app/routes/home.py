@@ -133,6 +133,7 @@ def seedbuilder():
         session['seeds_added_list'] = seeded_playlists
 
     print("updated code")
+    print("updated2")
 
 
 
