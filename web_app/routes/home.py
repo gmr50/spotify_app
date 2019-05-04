@@ -132,6 +132,8 @@ def seedbuilder():
         seeded_playlists = []
         session['seeds_added_list'] = seeded_playlists
 
+    print("updated code")
+
 
 
 
