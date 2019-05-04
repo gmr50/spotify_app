@@ -123,6 +123,7 @@ def seedbuilder():
 
 
     #updated to accomodate session cookie issue
+    #update
     seeded_playlists = session.get('seeds_added_list', None)
     if(seeded_playlists):
         print("playlists detected")
