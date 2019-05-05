@@ -6,7 +6,7 @@ REQUIREMENTS:
 
   + Upgrade to the latest version of Spotipy: `pip install git+https://github.com/plamere/spotipy.git --upgrade`
 
-+ Set your environment variables: `CLIENT_ID` and `CLIENT_SECRET`, from the Spotify API
++ Set your environment variables: `CLIENT_ID` and `CLIENT_SECRET`, from the Spotify API. Configure your Spotify API application by adding the redirect URI of "http://localhost:5000/callback/".
 
 +++++++++++++++++++++++++++++
 
