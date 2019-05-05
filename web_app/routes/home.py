@@ -1,6 +1,6 @@
 
 from flask import Blueprint, request, render_template, redirect, session, url_for, flash
-from web_app.spotify_methods import prompt_token_flask, get_user_playlists, add_playlist_for_seed, add_tracks_for_seed, add_top_tracks_for_seed, build_playlist, execute_playlist, playlist_unfollow, strip_selection, read_tracks_from_csv, write_tracks_to_csv, clear_tracks_csv, check_login
+from web_app.spotify_methods import prompt_token_flask, get_user_playlists, add_playlist_for_seed, add_tracks_for_seed, add_top_tracks_for_seed, build_playlist, execute_playlist, playlist_unfollow, strip_selection, read_tracks_from_csv, write_tracks_to_csv, clear_tracks_csv, check_login, write_username_to_csv, read_username_from_csv, clear_username_csv
 import werkzeug
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -16,6 +16,7 @@ def index():
     #declaring session variable to send playlist seeds to
     playlists_list = []
     seeds_added_list = []
+    session['description'] = ""
     session['playlists_list'] = playlists_list
     session['seeds_added_list'] = seeds_added_list
 
@@ -47,9 +48,19 @@ def Execute(username=None):
 
 
     if(username_detected):
-        session['username'] = username
+        print("debug: " + username)
+        print("username detected")
+        #session['username'] = username
 
-        auth_url = prompt_token_flask(username).get_authorize_url() #> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
+        write_username_to_csv(username)
+
+
+
+
+        print("saved to memory")
+
+        auth_url = prompt_token_flask(username).get_authorize_url()#> 'https://accounts.spotify.com/authorize?client_id=_____&response_type=code&redirect_uri=________&scope=playlist-modify-private+playlist-read-private'
+        print("redirect")
         return redirect(auth_url)
     else:
         return render_template("no_token.html")
@@ -61,8 +72,18 @@ def Execute(username=None):
 @home_routes.route("/callback/")
 def Callback(code=None):
 
-    
-    user_id = session.get('username', None)
+    print("callback")
+    user_id = read_username_from_csv()
+
+
+    #delete user id from csv to maintain clean code
+    clear_username_csv()
+
+    #changed flow to accommodate changes of domain, resets session variable with expectation session will persist
+    session['username'] = user_id
+
+    print("get user id from csv")
+    print(user_id)
 
     #gets authorization code from url
     print("SPOTIFY CALLBACK")
@@ -82,6 +103,7 @@ def Callback(code=None):
 
         check = check_login(token, user_id)
         if(check):
+            print("redirecting builder")
             return redirect("/builder")
         else:
             return render_template("no_token.html")
@@ -95,16 +117,36 @@ def Callback(code=None):
 @home_routes.route("/builder/", methods=['POST','GET'])
 def seedbuilder():
 
-
+    print("in builder")
     ranges = [['short term', 'short_term'], ['medium term', 'medium_term'], ['long term', 'long_term']]
-    seeded_playlists = session.get('seeds_added_list', None)
+    
 
+
+    #updated to accomodate session cookie issue
+    #update
+    seeded_playlists = session.get('seeds_added_list', None)
+    if(seeded_playlists):
+        print("playlists detected")
+    else:
+        print("seed session variable set")
+        seeded_playlists = []
+        session['seeds_added_list'] = seeded_playlists
+
+    print("updated code")
+    print("updated2")
+
+
+
+
+
+    
     user_id = session.get('username', None)
 
     token_check = False
 
     try:
         builder_token = session.get('token_var', None)
+        print("builder_token" + builder_token)
         if(builder_token != "Null"):
             token_check = True
     except:
@@ -113,7 +155,7 @@ def seedbuilder():
     if(token_check):
 
         user_playlists = get_user_playlists(builder_token, user_id)
-
+        print("got user playlists")
         return render_template("builder.html", playlists = user_playlists, ranges = ranges, seeded_playlists = seeded_playlists)
 
 
@@ -143,6 +185,7 @@ def AddSeed():
 
     try:
         token = session.get('token_var', None)
+
     except:
         print("failed to get session variable")
 
@@ -290,6 +333,8 @@ def thank_you(playlist_name = None):
 
     try:
         token = session.get('token_var', None)
+        print("debug")
+        print(token)
     except:
         print("failed to get session variable")
 
@@ -298,9 +343,14 @@ def thank_you(playlist_name = None):
     playlist_name = request.args["playlist_name"]
     username = session.get('username', None)
     recommendations = session.get('recommendations', None)
+    print("got recommendations")
     description = session.get('playlist_description', None)
+    print("got description")
+    session['description'] = ""
 
+    # *********
     message = execute_playlist(token, username, recommendations, playlist_name, description)
+    print("executed playlist")
     message = playlist_unfollow(username, token)
 
 

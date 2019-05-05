@@ -14,9 +14,11 @@ import csv
 def prompt_token_flask(user_id):
 
 
-
+    print("user id:" + user_id)
 
     username = user_id
+
+    print("debug 123 username " + username)
 
 
     
@@ -24,8 +26,11 @@ def prompt_token_flask(user_id):
     scope = 'user-top-read playlist-modify-public'
     client_id_saved = os.environ.get("CLIENT_ID", "Oops, please set env var called 'CLIENT_ID'")
     client_secret_saved = os.environ.get("CLIENT_SECRET", "Oops, please set env var called  'CLIENT_SECRET")
-    redirect_uri_saved = "http://localhost:5000/callback/"
+    redirect_uri_saved = os.environ.get("REDIRECT_URL", "http://localhost:5000/callback/")
+    print(os.path.normpath(os.getcwd()))
+    print(username)
     path = (os.path.normpath(os.getcwd()) + "/web_app/caches/.cache-" + username)
+
 
 
 
@@ -181,9 +186,10 @@ def execute_playlist(token, username, recommendations, playlist_name, descriptio
     #https://github.com/plamere/spotipy/blob/master/examples/create_playlist.py
     description = str(description)
 
-    description = description[0:300]
-    playlists = sp.user_playlist_create(username, playlist_name, public = True, description = description)
-
+    description1 = description[0:300]
+    print("description debug: " + description)
+    #playlists = sp.user_playlist_create(username, playlist_name, public = True, description = description1)
+    playlists = sp.user_playlist_create(username, playlist_name, public = True)
 
     playlist_id = playlists['id']
 
@@ -273,6 +279,24 @@ def read_tracks_from_csv():
 
     return csv_list
 
+def read_username_from_csv():
+
+    csv_filepath = os.path.normpath(os.getcwd()) + "/web_app/csv_files/username.csv"
+
+    #https://therenegadecoder.com/code/how-to-check-if-a-file-exists-in-python/
+    exists = os.path.isfile(csv_filepath)
+
+    with open(csv_filepath, "r") as csv_file:
+        reader = csv.reader(csv_file)
+        for row in reader:
+            print("updating username")
+            username = str(row)
+            username = username[2:-2]
+            print("read username:")
+            print(username)
+
+    return username
+
 
 
 def write_tracks_to_csv(tracks_list):
@@ -293,6 +317,23 @@ def write_tracks_to_csv(tracks_list):
     return success
 
 
+def write_username_to_csv(username):
+    csv_filepath = os.path.normpath(os.getcwd()) + "/web_app/csv_files/username.csv"
+
+    try:
+        with open(csv_filepath, "w") as csv_file: # "w" means "open the file for writing"
+            writer = csv.writer(csv_file)
+            writer.writerow([str(username)])
+
+    except:
+        print("no csv file to write to")
+
+    success = True
+
+    return success
+
+
+
 def clear_tracks_csv():
     print("clearing tracks")
     csv_filepath = os.path.normpath(os.getcwd()) + "/web_app/csv_files/tracks.csv"
@@ -303,6 +344,20 @@ def clear_tracks_csv():
     cleared = True
 
     return cleared
+
+def clear_username_csv():
+    
+    print("clearing tracks")
+    csv_filepath = os.path.normpath(os.getcwd()) + "/web_app/csv_files/username.csv"
+    csv = open(csv_filepath, "w")
+    csv.truncate()
+    csv.close()
+
+    cleared = True
+
+    return cleared
+
+
 
 def check_login(token,user_id):
     sp = spotipy.Spotify(auth=token)
