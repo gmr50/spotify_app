@@ -1,3 +1,9 @@
 .env
 /web_app/__pycache__
+web_app/routes/__pycache__
+
 /web_app/caches/*
+
+__pycache__
+.pytest_cache
+.DS_Store
